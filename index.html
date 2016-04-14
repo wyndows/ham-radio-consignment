@@ -22,12 +22,18 @@
 		<!-- Document the main use cases -->
 		<p><strong>Use Case</strong></p>
 		<p>John Q. Ham has done some research and is looking for an ICOM radio offering dual band features.</p>
-			<ul>
+			<ol>
 				<li>He enters the HRO website.</li>
-				<li>Chooses Products.</li>
-				<li>Chooses Consignment Items.</li>
-				<li>Scrolls through the listing and chooses: ICOM IC-2820H</li>
-			</ul>
+					<ul>
+						<li>Site shows him the home page.</li>
+						<li>He clicks on the login.</li>
+						<li>He enters his username and password.</li>
+						<li>After login the site takes him back to the Home page.</li>
+					</ul>
+				<li>He Chooses Products.</li>
+				<li>He Chooses Consignment Items.</li>
+				<li>He Scrolls through the listing and chooses: ICOM IC-2820H</li>
+			</ol>
 		<br>
 		<br>
 		<!-- Breaking down the consignment item page into it's main entities -->
@@ -35,6 +41,7 @@
 
 		<p><strong>consignItem</strong></p>
 			<ul>
+				<li>consignItemId</li>
 				<li>consignItemDescription</li>
 				<li>consignItemPrice</li>
 				<li>consignItemCustomer</li>
@@ -44,9 +51,9 @@
 
 		<p><strong>storeLocation</strong></p>
 			<ul>
+				<li>storeLocationId</li>
 				<li>storeLocationName</li>
-				<li>storeLocationAddress1</li>
-				<li>storeLocationAddress2</li>
+				<li>storeLocationAddress</li>
 				<li>storeLocationCity</li>
 				<li>storeLocationState</li>
 				<li>storeLocationZip</li>
@@ -55,9 +62,9 @@
 
 		<p><strong>customer</strong></p>
 			<ul>
+				<li>customerId</li>
 				<li>customerName</li>
-				<li>customerAddress1</li>
-				<li>customerAddress2</li>
+				<li>customerAddress</li>
 				<li>customerCity</li>
 				<li>customerState</li>
 				<li>customerZip</li>
@@ -71,7 +78,7 @@
 		<!-- How do the elements interact with each other? -->
 		<p><strong>Entity Interrelationship</strong></p>
 			<ul>
-				<li>Consignment item is sold at one of the multiple HRO locations. [1:many]</li>
+				<li>Consignment item can be sold at one of the multiple HRO locations. [1:many]</li>
 				<li>Consignment item is being sold on behalf of a customer. [1:1]</li>
 				<li>Consignment item is being sold to a customer. [1:1]</li>
 			</ul>

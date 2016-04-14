@@ -2,24 +2,79 @@
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
-		<title>Ham Radio Consignment</title>
+		<title>Data Analysis</title>
 	</head>
 	<body>
-		<p>
-			Ham Radio Consignment
-
-				Entities
-				<ul>
-				<li>Item</li>
-				<li>Description</li>
-				<li>Price</li>
-				<li>Location</li>
-				<li>Stock</li>
-				<li>Social</li>
-				</ul>
+		<p>Data Analysis on a consignment item from the HRO website.</p>
 
 
-
+		<!-- Define the typical Persona -->
+		<p><strong>John Q. Ham</strong></p>
+		<p>John is 44 and works at Ham-Works.
+			He has been saving for a number of years for a new to him radio.
+			He has an old radio and is interested in getting a newer model.
+			Since he has been saving for so long he wants a good return for his investment and the ability to do some of the newer modes of
+			communication that have arisen in the last decade or so.
+			He is not particularly 'stuck' with one brand, but does enjoy the features and operability of ICOM radios.
+			He has researched various radios on the internet and has some idea of what he is looking for.
 		</p>
+
+		<!-- Document the main use cases -->
+		<p><strong>Use Case</strong></p>
+		<p>John Q. Ham has done some research and is looking for an ICOM radio offering dual band features.</p>
+			<ul>
+				<li>He enters the HRO website.</li>
+				<li>Chooses Products.</li>
+				<li>Chooses Consignment Items.</li>
+				<li>Scrolls through the listing and chooses: ICOM IC-2820H</li>
+			</ul>
+		<br>
+		<br>
+		<!-- Breaking down the consignment item page into it's main entities -->
+		<p><strong>Main Entities</strong></p>
+
+		<p><strong>consignItem</strong></p>
+			<ul>
+				<li>consignItemDescription</li>
+				<li>consignItemPrice</li>
+				<li>consignItemCustomer</li>
+				<li>consignItemType</li>
+				<li>consignItemMedia</li>
+			</ul>
+
+		<p><strong>storeLocation</strong></p>
+			<ul>
+				<li>storeLocationName</li>
+				<li>storeLocationAddress1</li>
+				<li>storeLocationAddress2</li>
+				<li>storeLocationCity</li>
+				<li>storeLocationState</li>
+				<li>storeLocationZip</li>
+				<li>storeLocationPhone</li>
+			</ul>
+
+		<p><strong>customer</strong></p>
+			<ul>
+				<li>customerName</li>
+				<li>customerAddress1</li>
+				<li>customerAddress2</li>
+				<li>customerCity</li>
+				<li>customerState</li>
+				<li>customerZip</li>
+				<li>customerEmail</li>
+				<li>customerPhone</li>
+				<li>customerSalt</li>
+				<li>customerHash</li>
+			</ul>
+		<br>
+		<br>
+		<!-- How do the elements interact with each other? -->
+		<p><strong>Entity Interrelationship</strong></p>
+			<ul>
+				<li>Consignment item is sold at one of the multiple HRO locations. [1:many]</li>
+				<li>Consignment item is being sold on behalf of a customer. [1:1]</li>
+				<li>Consignment item is being sold to a customer. [1:1]</li>
+			</ul>
+
 	</body>
 </html>

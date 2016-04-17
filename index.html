@@ -22,33 +22,25 @@
 		<!-- Document the main use cases -->
 		<p><strong>Use Case</strong></p>
 		<p>John Q. Ham has done some research and is looking for an ICOM radio offering dual band features.</p>
-			<ol>
+			<ul>
 				<li>He enters the HRO website.
-					<ol>
+					<ul>
 						<li>Site shows him the home page.</li>
 						<li>He clicks on the login.</li>
 						<li>He enters his username and password.</li>
 						<li>After login the site takes him back to the Home page.</li>
-					</ol>
+					</ul>
 				</li>
 				<li>He Chooses Products.</li>
+				<li>Site shows him a list of product types to choose from</li>
 				<li>He Chooses Consignment Items.</li>
+				<li>The site shows a page of items that are on consignment</li>
 				<li>He Scrolls through the listing and chooses: ICOM IC-2820H</li>
-			</ol>
+			</ul>
 		<br>
 		<br>
 		<!-- Breaking down the consignment item page into it's main entities -->
 		<p><strong>Main Entities</strong></p>
-
-		<p><strong>consignItem</strong></p>
-			<ul>
-				<li>consignItemId</li>
-				<li>consignItemDescription</li>
-				<li>consignItemPrice</li>
-				<li>consignItemCustomer</li>
-				<li>consignItemType</li>
-				<li>consignItemMedia</li>
-			</ul>
 
 		<p><strong>storeLocation</strong></p>
 			<ul>
@@ -74,14 +66,27 @@
 				<li>customerSalt</li>
 				<li>customerHash</li>
 			</ul>
+
+		<p><strong>Weak Entity</strong></p>
+
+		<p><strong>consignItem</strong></p>
+			<ul>
+				<li>consignItemId</li>
+				<li>consignItemDescription</li>
+				<li>consignItemPrice</li>
+				<li>consignItemCustomer</li>
+				<li>consignItemType</li>
+				<li>consignItemMedia</li>
+			</ul>
 		<br>
 		<br>
 		<!-- How do the elements interact with each other? -->
 		<p><strong>Entity Interrelationship</strong></p>
 			<ul>
-				<li>Consignment item can be sold at one of the multiple HRO locations. [1:many]</li>
-				<li>Consignment item is being sold on behalf of a customer. [1:1]</li>
-				<li>Consignment item is being sold to a customer. [1:1]</li>
+				<li>The various HRO stores carry different consignment items. [1:many]</li>
+				<li>Customers can purchase one or more consignment items. [many:many]</li>
+				<li>A customer can have multiple items on consignment. [1:many]</li>
+				<li>A store can carry multiple consignment items from a customer. [1:many]</li>
 			</ul>
 
 	</body>

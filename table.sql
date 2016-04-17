@@ -36,7 +36,7 @@ CREATE TABLE storeLocation (
 CREATE TABLE consignItem (
 	consignItemId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	consignItemDescription  VARCHAR(50)  NOT NULL,
-	consignItemPrice 			FLOAT(7,2) 	 NOT NULL,
+	consignItemPrice 			NUMERIC(7,2) 	 NOT NULL,
 	consignItemMedia   		BLOB(65536)  NOT NULL,
 	customerId 					INT UNSIGNED NOT NULL,
 	storeLocationId			INT UNSIGNED NOT NULL,
@@ -49,17 +49,14 @@ CREATE TABLE consignItem (
 
 CREATE TABLE itemSale (
 	itemSaleId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	consignItemId  		VARCHAR(50)  NOT NULL,
-	storeLocationId 		FLOAT(7,2) 	 NOT NULL,
-	customerId   			BLOB(65536)  NOT NULL,
-	consignItemPrice   	FLOAT(7,2) 	 NOT NULL,
+	consignItemId  		INT UNSIGNED NOT NULL,
+	storeLocationId 		INT UNSIGNED NOT NULL,
+	customerId   			INT UNSIGNED NOT NULL,
 	INDEX(customerId),
 	INDEX(storeLocationId),
-	INDEX(consignItemPrice),
 	INDEX(consignItemId),
 	FOREIGN KEY(customerId) REFERENCES customer(customerId),
 	FOREIGN KEY(storeLocationId) REFERENCES storeLocation(storeLocationId),
-	FOREIGN KEY(consignItemPrice) REFERENCES consignItem(consignItemPrice),
 	FOREIGN KEY(consignItemId) REFERENCES consignItem(consignItemId),
-	PRIMARY KEY(consignItemId)
+	PRIMARY KEY(itemSaleId)
 );

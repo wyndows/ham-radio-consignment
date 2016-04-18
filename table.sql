@@ -1,62 +1,64 @@
-DROP TABLE IF EXISTS customer;
-DROP TABLE IF EXISTS storeLocation;
-DROP TABLE IF EXISTS consignItem;
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS store;
+DROP TABLE IF EXISTS item;
+DROP TABLE IF EXISTS sale;
 
-CREATE TABLE customer (
-	customerId      	INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	customerLastName  VARCHAR(20)  NOT NULL,
-	customerFirstName VARCHAR(20)  NOT NULL,
-	customerAddress 	VARCHAR(100) NOT NULL,
-	customerCity    	VARCHAR(50)  NOT NULL,
-	customerState   	CHAR(2)      NOT NULL,
-	customerZip     	CHAR(5)      NOT NULL,
-	customerEmail   	VARCHAR(128) NOT NULL,
-	customerPhone   	VARCHAR(30)  NOT NULL,
-	customerSaltHash  VARCHAR(25)  NOT NULL,
-	UNIQUE(customerEmail),
-	UNIQUE(customerPhone),
-	PRIMARY KEY (customerId)
+CREATE TABLE user (
+	userId      	INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	userLastName  	VARCHAR(20) NOT NULL,
+	userFirstName 	VARCHAR(20) NOT NULL,
+	userAddress 	VARCHAR(100)NOT NULL,
+	userCity    	VARCHAR(50) NOT NULL,
+	userState   	CHAR(2)     NOT NULL,
+	userZip     	CHAR(5)     NOT NULL,
+	userEmail   	VARCHAR(128)NOT NULL,
+	userPhone   	VARCHAR(30) NOT NULL,
+	userSalt  		CHAR(64)  	NOT NULL,
+	userHash  		CHAR(128) 	NOT NULL,
+	UNIQUE(userEmail),
+	UNIQUE(userPhone),
+	PRIMARY KEY (userId)
 );
 
-CREATE TABLE storeLocation (
-	storeLocationId      INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	storeLocationName    VARCHAR(50)  NOT NULL,
-	storeLocationAddress VARCHAR(100) NOT NULL,
-	storeLocationState   CHAR(2)   	 NOT NULL,
-	storeLocationZip   	CHAR(5)      NOT NULL,
-	storeLocationPhone   VARCHAR(30)  NOT NULL,
-	storeLocationEmail   VARCHAR(128) NOT NULL,
-	UNIQUE(storeLocationName),
-	UNIQUE(storeLocationEmail),
-	UNIQUE(storeLocationAddress),
-	UNIQUE(storeLocationPhone),
-	PRIMARY KEY (storeLocationId)
+CREATE TABLE store (
+	storeId      INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	storeName    VARCHAR(50)  NOT NULL,
+	storeAddress VARCHAR(100) NOT NULL,
+	storeState   CHAR(2)   	 NOT NULL,
+	storeZip   	 CHAR(5)      NOT NULL,
+	storePhone   VARCHAR(30)  NOT NULL,
+	storeEmail   VARCHAR(128) NOT NULL,
+	UNIQUE(storeName),
+	UNIQUE(storeEmail),
+	UNIQUE(storeAddress),
+	UNIQUE(storePhone),
+	PRIMARY KEY (storeId)
 );
 
-CREATE TABLE consignItem (
-	consignItemId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	consignItemDescription  VARCHAR(50)  NOT NULL,
-	consignItemPrice 			NUMERIC(7,2) 	 NOT NULL,
-	consignItemMedia   		BLOB(65536)  NOT NULL,
-	customerId 					INT UNSIGNED NOT NULL,
-	storeLocationId			INT UNSIGNED NOT NULL,
-	INDEX(customerId),
-	INDEX(storeLocationId),
-	FOREIGN KEY(customerId) REFERENCES customer(customerId),
-	FOREIGN KEY(storeLocationId) REFERENCES storeLocation(storeLocationId),
-	PRIMARY KEY(consignItemId)
+CREATE TABLE item (
+	itemId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	itemDescription  VARCHAR(50)  NOT NULL,
+	itemPrice 			NUMERIC(7,2) 	 NOT NULL,
+	itemMedia   		BLOB  NOT NULL,
+	userId 					INT UNSIGNED NOT NULL,
+	storeId			INT UNSIGNED NOT NULL,
+	INDEX(userId),
+	INDEX(storeId),
+	FOREIGN KEY(userId) REFERENCES user(userId),
+	FOREIGN KEY(storeId) REFERENCES store(storeId),
+	PRIMARY KEY(itemId)
 );
 
-CREATE TABLE itemSale (
-	itemSaleId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
-	consignItemId  		INT UNSIGNED NOT NULL,
-	storeLocationId 		INT UNSIGNED NOT NULL,
-	customerId   			INT UNSIGNED NOT NULL,
-	INDEX(customerId),
-	INDEX(storeLocationId),
-	INDEX(consignItemId),
-	FOREIGN KEY(customerId) REFERENCES customer(customerId),
-	FOREIGN KEY(storeLocationId) REFERENCES storeLocation(storeLocationId),
-	FOREIGN KEY(consignItemId) REFERENCES consignItem(consignItemId),
-	PRIMARY KEY(itemSaleId)
+CREATE TABLE sale (
+	saleId      		INT UNSIGNED AUTO_INCREMENT NOT NULL,
+	itemId  		INT UNSIGNED NOT NULL,
+	storeId 		INT UNSIGNED NOT NULL,
+	userId   			INT UNSIGNED NOT NULL,
+	INDEX(userId),
+	INDEX(storeId),
+	INDEX(itemId),
+	FOREIGN KEY(userId) REFERENCES user(userId),
+	FOREIGN KEY(storeId) REFERENCES store(storeId),
+	FOREIGN KEY(itemId) REFERENCES item(itemId),
+	PRIMARY KEY(saleId)
 );

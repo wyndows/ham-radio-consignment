@@ -42,49 +42,50 @@
 		<!-- Breaking down the consignment item page into it's main entities -->
 		<p><strong>Main Entities</strong></p>
 
-		<p><strong>storeLocation</strong></p>
+		<p><strong>store</strong></p>
 			<ul>
-				<li>storeLocationId(primary key)</li>
-				<li>storeLocationName</li>
-				<li>storeLocationAddress</li>
-				<li>storeLocationCity</li>
-				<li>storeLocationState</li>
-				<li>storeLocationZip</li>
-				<li>storeLocationPhone</li>
+				<li>storeId(primary key)</li>
+				<li>storeName</li>
+				<li>storeAddress</li>
+				<li>storeCity</li>
+				<li>storeState</li>
+				<li>storeZip</li>
+				<li>storePhone</li>
 			</ul>
 
-		<p><strong>customer</strong></p>
+		<p><strong>user</strong></p>
 			<ul>
-				<li>customerId(primary key)</li>
-				<li>customerLastName</li>
-				<li>customerFirstName</li>
-				<li>customerAddress</li>
-				<li>customerCity</li>
-				<li>customerState</li>
-				<li>customerZip</li>
-				<li>customerEmail</li>
-				<li>customerPhone</li>
-				<li>customerSaltHash</li>
+				<li>userId(primary key)</li>
+				<li>userLastName</li>
+				<li>userFirstName</li>
+				<li>userAddress</li>
+				<li>userCity</li>
+				<li>userState</li>
+				<li>userZip</li>
+				<li>userEmail</li>
+				<li>userPhone</li>
+				<li>userSalt</li>
+				<li>userHash</li>
 			</ul>
 
 		<p><strong>Weak Entities</strong></p>
 
-		<p><strong>consignItem</strong></p>
+		<p><strong>item</strong></p>
 			<ul>
-				<li>consignItemId(primary key)</li>
-				<li>consignItemDescription</li>
-				<li>consignItemPrice</li>
-				<li>consignItemMedia</li>
-				<li>customerId(foreign key)</li>
-				<li>storeLocationId(foreign key)</li>
+				<li>itemId(primary key)</li>
+				<li>itemDescription</li>
+				<li>itemPrice</li>
+				<li>itemMedia</li>
+				<li>userId(foreign key)</li>
+				<li>storeId(foreign key)</li>
 			</ul>
 
-		<p><strong>itemSale</strong></p>
+		<p><strong>sale</strong></p>
 			<ul>
-				<li>itemSaleId(primary key)</li>
-				<li>consignItemId(foreign key)</li>
-				<li>customerId(foreign key)</li>
-				<li>storeLocationId(foreign key)</li>
+				<li>saleId(primary key)</li>
+				<li>itemId(foreign key)</li>
+				<li>userId(foreign key)</li>
+				<li>storeId(foreign key)</li>
 			</ul>
 		<br>
 		<br>
@@ -97,7 +98,7 @@
 				<li>A store can carry multiple consignment items from a customer. [1:many]</li>
 			</ul>
 
-		<p><img src="ham-radio-consignment.svg" height="500" width="800" alt="network diagram"/></p>
+		<img src="ham-radio-consignment.svg" height="500" width="800" alt="network diagram"/>
 
 	</body>
 </html>

@@ -62,7 +62,7 @@ public function setStoreName(string $newStoreName) {
 					throw(new \InvalidArgumentException("store name content is empty or insecure"));
 			}
 
-			// verify the store name content will fit in the database
+			// verify the store name will fit in the database
 			if(strlen($newStoreName) > 50) {
 					throw(new \RangeException("store name is too long"));
 			}
@@ -89,4 +89,57 @@ public function getStoreAddress() {
  * @throws \RangeException if $newStoreAddress is > 100 characters
  * @throws \TypeError if $newStoreAddress is not a string
  */
+
+public function setStoreAddress(string $newStoreAddress) {
+			// verify the store address is secure
+			$newStoreAddress = trim($newStoreAddress);
+			$newStoreAddress = filter_var($newStoreAddress, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			if(empty($newStoreAddress) === true) {
+					throw(new \InvalidArgumentException("store address is empty or insecure"));
+			}
+
+			// verify the store address will fit in the database
+			if(strlen($newStoreAddress) > 100) {
+					throw(new \RangeException("store address is too long"));
+			}
+
+			// store the store address
+			$this->storeAddress = $newStoreAddress;
+}
+
+/**
+ * accessor method for store state
+ *
+ * @return string value of store state
+ */
+
+public function getStoreState() {
+			return($this->storeState);
+}
+
+/**
+ * mutator method for store state
+ *
+ * @param string $newStoreState new value of store state
+ * @throws \InvalidArgumentException if $newStoreState is not a string or insecure
+ * @throws \RangeException if $newStoreState is > 2 characters
+ * @throws \TypeError if $newStoreState is not a string
+ */
+
+public function setStoreState(string $newStoreState) {
+			// verify the store state is secure
+			$newStoreState = trim($newStoreState);
+			$newStoreState = filter_var($newStoreState, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			if(empty($newStoreState) === true) {
+					throw(new \InvalidArgumentException("store state is empty or insecure"))
+			}
+
+			// verify the store address will fit in the database
+			if(strlen($newStoreState) > 2) {
+					throw(new \RangeException("store state is too long"));
+			}
+
+			// store the store state
+			$this->storeState = $newStoreState;
+}
 

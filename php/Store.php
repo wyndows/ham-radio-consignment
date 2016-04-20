@@ -7,12 +7,11 @@ require_once ("autoload.php");
 /**
  * Small Cross Section of a Store's Information
  *
- * This can be considered a small example of what information is stored from a Store Entity.
+ * This can be considered a small example of what information is utilized from a Store Entity.
  *
  * @author Marlan Ball <mball15@cnm.edu>
  * @version 1.0.0
  */
-
 class Store implements \JsonSerializable {
 	use ValidateDate;
 
@@ -69,7 +68,6 @@ class Store implements \JsonSerializable {
 	 * @throws \RangeException if $newStoreId is not positive
 	 * @throws \TypeError if $newStoreId is not an integer
 	 */
-
 	public function setStoreId(int $newStoreId = null) {
 		// base case: if the store id is null, this is a new store without a mySQL assigned id
 		if($newStoreId === null) {
@@ -90,9 +88,8 @@ class Store implements \JsonSerializable {
 	/**
 	 * accessor method for store name
 	 *
-	 * @return int|null value of store name
+	 * @return string value of store name
 	 */
-
 	public function getStoreName() {
 		return($this->storeName);
 	}
@@ -100,12 +97,11 @@ class Store implements \JsonSerializable {
 	/**
 	 * mutator method for tweet id
 	 *
-	 * @param int|null $newStoreName new value of store name
+	 * @param string $newStoreName new value of store name
 	 * @throws \InvalidArgumentException if $newStoreName is not a string or insecure
 	 * @throws \RangeException if $newStoreName is > 50 characters
 	 * @throws \TypeError if $newStoreName is not a string
 	 */
-
 	public function setStoreName(string $newStoreName) {
 		// verify the store name is secure
 		$newStoreName = trim($newStoreName);
@@ -128,7 +124,6 @@ class Store implements \JsonSerializable {
 	 *
 	 * @return string value of store address
 	 */
-
 	public function getStoreAddress() {
 		return($this->storeAddress);
 	}
@@ -141,7 +136,6 @@ class Store implements \JsonSerializable {
 	 * @throws \RangeException if $newStoreAddress is > 100 characters
 	 * @throws \TypeError if $newStoreAddress is not a string
 	 */
-
 	public function setStoreAddress(string $newStoreAddress) {
 		// verify the store address is secure
 		$newStoreAddress = trim($newStoreAddress);
@@ -164,7 +158,6 @@ class Store implements \JsonSerializable {
 	 *
 	 * @return string value of store state
 	 */
-
 	public function getStoreState() {
 		return($this->storeState);
 	}
@@ -177,7 +170,6 @@ class Store implements \JsonSerializable {
 	 * @throws \RangeException if $newStoreState is > 2 characters
 	 * @throws \TypeError if $newStoreState is not a string
 	 */
-
 	public function setStoreState(string $newStoreState) {
 		// verify the store state is secure
 		$newStoreState = trim($newStoreState);
@@ -200,7 +192,6 @@ class Store implements \JsonSerializable {
 	 *
 	 * @return string value of store zipcode
 	 */
-
 	public function getStoreZip() {
 		return($this->storeZip);
 	}
@@ -213,7 +204,6 @@ class Store implements \JsonSerializable {
 	 * @throws \RangeException if $newStoreZip is > 5 characters
 	 * @throws \TypeError if $newStoreZip is not a string
 	 */
-
 	public function setStoreZip(string $newStoreZip) {
 		// verify the store zipcode is secure
 		$newStoreZip = trim($newStoreZip);
@@ -236,7 +226,6 @@ class Store implements \JsonSerializable {
 	 *
 	 * @return string value of store phone number
 	 */
-
 	public function getStorePhone() {
 		return($this->storePhone);
 	}
@@ -249,7 +238,6 @@ class Store implements \JsonSerializable {
 	 * @throws \RangeException if $newStorePhone is > 30 characters
 	 * @throws \TypeError if $newStorePhone is not a string
 	 */
-
 	public function setStorePhone(string $newStorePhone) {
 		// verify the store phone number is secure
 		$newStorePhone = trim($newStorePhone);
@@ -272,7 +260,6 @@ class Store implements \JsonSerializable {
 	 *
 	 * @return string value of store email
 	 */
-
 	public function getStoreEmail() {
 		return($this->storeEmail);
 	}
@@ -285,7 +272,6 @@ class Store implements \JsonSerializable {
 	 * @throws \RangeException if $newStoreEmail is > 128 characters
 	 * @throws \TypeError if $newStoreEmail is not a string
 	 */
-
 	public function setStoreEmail(string $newStoreEmail) {
 		// verify the store email is secure
 		$newStoreEmail = trim($newStoreEmail);
@@ -304,3 +290,4 @@ class Store implements \JsonSerializable {
 	}
 
 }
+?>

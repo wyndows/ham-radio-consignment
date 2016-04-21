@@ -52,6 +52,44 @@ class Store implements \JsonSerializable {
 	private $storeEmail;
 
 	/**
+	 * constructor for this store
+	 *
+	 * @param int|null $newStoreId id of this store or null if a new store
+	 * @param string $newStoreName string containing name of the store
+	 * @param string $newStoreAddress string containing address of the store
+	 * @param string $newStoreState string containing state of the store
+	 * @param string $newStoreZip string containing zip code of the store
+	 * @param string $newStorePhone string containing phone number of the store
+	 * @param string $newStoreEmail string containing email address of the store
+	 * @throws \InvalidArgumentException if data types are not valid
+	 * @throws \RangeException if data values are out of bounds (e.g. strings too long, negative integers)
+	 * @throws \TypeError if data types violate type hints
+	 * @throws \Exception if some other exception occurs
+	 */
+	public function __construct(int $newStoreId = null, string $newStoreName, string $newStoreAddress, string $newStoreState, string $newStoreZip, string $newStorePhone, string $newStoreEmail) {
+		try {
+			$this->setStoreId($newStoreId);
+			$this->setStoreName($newStoreName);
+			$this->setStoreAddress($newStoreAddress);
+			$this->setStoreState($newStoreState);
+			$this->setStoreZip($newStoreZip);
+			$this->setStorePhone($newStorePhone);
+			$this->setStoreEmail($newStoreEmail);
+		} catch(\InvalidArgumentException $invalidArgument) {
+			//rethrow the exception to the caller
+			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
+		} catch(\RangeException $range) {
+			//rethrow the exception to the caller
+			throw(new \RangeException($range->getMessage(), 0, $range));
+		} catch(\TypeError $typeError) {
+			//rethrow the exception to the caller
+			throw(new \TypeError($typeError->getMessage(), 0, $typeError));
+		} catch(\Exception $exception) {
+			//rethrow the exception to the caller
+			throw(new \Exception($exception->getMessage(), 0, $exception));
+		}
+	}
+	/**
 	 * accessor method for store id
 	 *
 	 * @return int|null value of store id
@@ -289,5 +327,15 @@ class Store implements \JsonSerializable {
 		$this->storeEmail = $newStoreEmail;
 	}
 
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 */
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		return($fields);
+	}
 }
+
 ?>

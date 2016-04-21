@@ -70,7 +70,7 @@ class User implements \JsonSerializable {
 	 * @var string $userHash
 	 */
 	private $userHash;
-
+	
 	/**
 	 * accessor method for user id
 	 *

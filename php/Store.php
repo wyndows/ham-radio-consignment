@@ -133,7 +133,7 @@ class Store implements \JsonSerializable {
 	}
 
 	/**
-	 * mutator method for tweet id
+	 * mutator method for store name
 	 *
 	 * @param string $newStoreName new value of store name
 	 * @throws \InvalidArgumentException if $newStoreName is not a string or insecure
@@ -398,29 +398,29 @@ class Store implements \JsonSerializable {
 	}
 
 	/**
-	 * gets the store data by content
+	 * gets the store address by content
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $tweetContent tweet content to search for
+	 * @param string $storeAddress store address content to search for
 	 * @return \SplFixedArray SplFixedArray of store data found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 */
-	public static function getStoreByStoreContent(\PDO $pdo, string $storeContent) {
+	public static function getStoreByStoreAddress(\PDO $pdo, string $storeAddress) {
 		// sanitize the description before searching
-		$storeContent = trim($storeContent);
-		$storeContent = filter_var($storeContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($storeContent) === true) {
-			throw(new \PDOException("store content is invalid"));
+		$storeAddress = trim($storeAddress);
+		$storeAddress = filter_var($storeAddress, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($storeAddress) === true) {
+			throw(new \PDOException("store address is invalid"));
 		}
 
 		// create query template
-		$query = "SELECT storeId, storeName, storeAddress, storeState, storeZip, storePhone, storeEmail FROM store WHERE storeContent LIKE :storeContent";
+		$query = "SELECT storeId, storeName, storeAddress, storeState, storeZip, storePhone, storeEmail FROM store WHERE storeAddress LIKE :storeAddress";
 		$statement = $pdo->prepare($query);
 
 		// bind the store content to the place holder in the template
-		$storeContent = "%$storeContent%";
-		$parameters = array("storeContent" => $storeContent);
+		$storeAddress = "%$storeAddress%";
+		$parameters = array("storeContent" => $storeAddress);
 		$statement->execute($parameters);
 
 		// build an array of store data
@@ -457,13 +457,13 @@ class Store implements \JsonSerializable {
 
 		// create query template
 		$query = "SELECT storeId, storeName, storeAddress, storeState, storeZip, storePhone, storeEmail FROM store WHERE storeId = :storeId";
-		$statement  $pdo->prepare($query);
+		$statement = $pdo->prepare($query);
 
 		// bind the store id to the place holder in the template
 		$parameters = array("storeId" => $storeId);
 		$statement->execute($parameters);
 
-		// grab the tweet from mySQL
+		// grab the store from mySQL
 		try {
 			$store = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);

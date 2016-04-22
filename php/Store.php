@@ -2,7 +2,7 @@
 
 namespace Edu\Cnm\Mball15\HamRadioConsignment;
 
-require_once ("autoload.php");
+require_once ("autoloader.php");
 
 /**
  * Small Cross Section of a Store's Information
@@ -341,7 +341,7 @@ class Store implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "INSERT INTO store(storeId, storeName, storeAddress, storeState, storeZip, storePhone, storeEmail) VALUES(:storeId, :storeName, :storeAddress, :storeState, :storeZip, :storePhone, :storeEmail)";
+		$query = "INSERT INTO store(storeName, storeAddress, storeState, storeZip, storePhone, storeEmail) VALUES(:storeName, :storeAddress, :storeState, :storeZip, :storePhone, :storeEmail)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
@@ -489,5 +489,11 @@ class Store implements \JsonSerializable {
 	}
 
 }
+
+// this section acts like a user creating a new store
+// user put Denver, 123WestRoad, CO, 87110, 5055551212, my@my.com into the class Store
+$userInput = new Store(null, "Denver", "123WestRoad", "CO", "87110", "5055551212", "my@my.com");
+var_dump($userInput);
+
 
 ?>

@@ -13,7 +13,7 @@ require_once ("autoload.php");
  * @version 1.0.0
  */
 class Store implements \JsonSerializable {
-	use ValidateDate;
+	// use ValidateDate;
 
 	/**
 	 * id for this store; this is the primary key
@@ -328,6 +328,157 @@ class Store implements \JsonSerializable {
 	}
 
 	/**
+	 * inserts store information into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function insert(\PDO $pdo) {
+		// enforce the storeId is null (i.e., don't insert a store that already exists
+		if($this->storeId !== null) {
+			throw(new \PDOException("not a new store"));
+		}
+
+		// create query template
+		$query = "INSERT INTO store(storeId, storeName, storeAddress, storeState, storeZip, storePhone, storeEmail) VALUES(:storeId, :storeName, :storeAddress, :storeState, :storeZip, :storePhone, :storeEmail)";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["storeId" => $this->storeId, "storeName" => $this->storeName, "storeAddress" => $this->storeAddress, "storeState" => $this->storeState, "storeZip" => $this->storeZip, "storePhone" => $this->storePhone, "storeEmail" => $this->storeEmail];
+		$statement->execute($parameters);
+
+		// update the null storeId with what mySQL just gave us
+		$this->storeId = intval($pdo->lastInsertId());
+
+	}
+
+	/**
+	 * deletes this store from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function delete(\PDO $pdo) {
+		// enforce the storeId is not null (don't delete a store that has just been inserted)
+		if($this->storeId === null) {
+			throw(new \PDOException("unable to delete a store that does not exist"));
+		}
+
+		// create query template
+		$query = "DELETE FROM store WHERE storeId = :storeId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holder in the template
+		$parameters = ["storeId" => $this->storeId];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * updates the store data in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function update(\PDO $pdo) {
+		// enforce the storeId is not null (don't update the store data that hasn't been inserted yet
+		if($this->storeId === null) {
+			throw(new \PDOException("unable to update the store data that doesn't exist"));
+		}
+
+		// create query template
+		$query = "UPDATE store SET storeName = :storeName, storeAddress = :storeAddress, storeState = :storeState, storeZip = :storeZip, storePhone = :storePhone, storeEmail = :storeEmail WHERE storeId = :storeId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["storeName" => $this->storeName, "storeAddress" => $this->storeAddress, "storeState" => $this->storeState, "storeZip" => $this->storeZip, "storePhone" => $this->storePhone, "storeEmail" => $this->storeEmail, "storeId" => $this->storeId];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * gets the store data by content
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $tweetContent tweet content to search for
+	 * @return \SplFixedArray SplFixedArray of store data found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+	public static function getStoreByStoreContent(\PDO $pdo, string $storeContent) {
+		// sanitize the description before searching
+		$storeContent = trim($storeContent);
+		$storeContent = filter_var($storeContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($storeContent) === true) {
+			throw(new \PDOException("store content is invalid"));
+		}
+
+		// create query template
+		$query = "SELECT storeId, storeName, storeAddress, storeState, storeZip, storePhone, storeEmail FROM store WHERE storeContent LIKE :storeContent";
+		$statement = $pdo->prepare($query);
+
+		// bind the store content to the place holder in the template
+		$storeContent = "%$storeContent%";
+		$parameters = array("storeContent" => $storeContent);
+		$statement->execute($parameters);
+
+		// build an array of store data
+		$storeData = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$store = new Store($row["storeId"], $row["storeName"], $row["storeAddress"], $row["storeState"], $row["storeZip"], $row["storePhone"], $row["storeEmail"]);
+				$storeData[$storeData->key()] = $store;
+				$storeData->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($storeData);
+
+	}
+
+	/**
+	 * get the store by storeId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $storeId store id to search for
+	 * @return Store|null store found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 */
+	public static function getStoreByStoreId(\PDO $pdo, int $storeId) {
+		// sanitize the storeId before searching
+		if($storeId <= 0) {
+			throw(new \PDOException("store id is not positive"));
+		}
+
+		// create query template
+		$query = "SELECT storeId, storeName, storeAddress, storeState, storeZip, storePhone, storeEmail FROM store WHERE storeId = :storeId";
+		$statement  $pdo->prepare($query);
+
+		// bind the store id to the place holder in the template
+		$parameters = array("storeId" => $storeId);
+		$statement->execute($parameters);
+
+		// grab the tweet from mySQL
+		try {
+			$store = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$store = new Store($row["storeId"], $row["storeName"], $row["storeAddress"], $row["storeState"], $row["storeZip"], $row["storePhone"], $row["storeEmail"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($store);
+	}
+
+	/**
 	 * formats the state variables for JSON serialization
 	 *
 	 * @return array resulting state variables to serialize
@@ -336,6 +487,7 @@ class Store implements \JsonSerializable {
 		$fields = get_object_vars($this);
 		return($fields);
 	}
+
 }
 
 ?>

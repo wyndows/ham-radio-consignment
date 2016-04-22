@@ -70,7 +70,7 @@ class User implements \JsonSerializable {
 	 * @var string $userHash
 	 */
 	private $userHash;
-	
+
 	/**
 	 * accessor method for user id
 	 *
@@ -189,31 +189,99 @@ class User implements \JsonSerializable {
 	 * @throws \TypeError if $newUserAddress is not a string
 	 */
 	public function setUserAddress(string $newUserAddress) {
+		// verify the user address is secure
+		$newUserAddress = trim($newUserAddress);
+		$newUserAddress = filter_var($newUserAddress, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newUserAddress) === true) {
+			throw(new \InvalidArgumentException("user address is empty or insecure"));
+		}
+
+		//verify the user address will fit in the database
+		if(strlen($newUserAddress) > 100) {
+			throw(new \RangeException("user address is too long"));
+		}
+
+		//store the user address
 		$this->userAddress = $newUserAddress;
+
 	}
 
+	/**
+	 * accessor method for user city
+	 *
+	 * @return string value of user city
+	 */
+	public function getUserCity() {
+		return $this->userCity;
+	}
 
+	/**
+	 * mutator method for user city
+	 *
+	 * @param string $newUserAddress new value of user city
+	 * @throws \InvalidArgumentException if $newUserCity is not a string or insecure
+	 * @throws \RangeException if $newUserCity is > 100 characters
+	 * @throws \TypeError if $newUserCity is not a string
+	 */
+	public function setUserCity(string $newUserCity) {
+		// verify the user city is secure
+		$newUserCity = trim($newUserCity);
+		$newUserCity = filter_var($newUserCity, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newUserCity) === true) {
+			throw(new \InvalidArgumentException("user city is empty or insecure"));
+		}
 
+		//verify the user city will fit in the database
+		if(strlen($newUserCity) > 100) {
+			throw(new \RangeException("user city is too long"));
+		}
 
+		//store the user city
+		$this->userCity = $newUserCity;
 
+	}
 
+	/**
+	 * accessor method for user state
+	 *
+	 * @return string value of user state
+	 */
+	public function getUserState() {
+		return $this->userState;
+	}
 
+	/**
+	 * mutator method for user state
+	 *
+	 * @param string $newUserAddress new value of user state
+	 * @throws \InvalidArgumentException if $newUserState is not a string or insecure
+	 * @throws \RangeException if $newUserState is > 100 characters
+	 * @throws \TypeError if $newUserState is not a string
+	 */
+	public function setUserState(string $newUserState) {
+		// verify the user state is secure
+		$newUserState = trim($newUserState);
+		$newUserState = filter_var($newUserState, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newUserState) === true) {
+			throw(new \InvalidArgumentException("user state is empty or insecure"));
+		}
 
+		//verify the user state will fit in the database
+		if(strlen($newUserState) > 100) {
+			throw(new \RangeException("user state is too long"));
+		}
 
+		//store the user state
+		$this->userState = $newUserState;
 
+	}
 
-
-
-
-
-
-
-
-
-
-
-
-
+	/**
+	 * accessor method for user zip code
+	 *
+	 * @return string value of user zip code
+	 */
+	public function getUserZip() {}
 
 
 
